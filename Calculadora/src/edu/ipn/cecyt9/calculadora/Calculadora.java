@@ -8,10 +8,6 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
-
 import javax.swing.JButton;
 import javax.swing.JButton;
 
@@ -57,7 +53,7 @@ public class Calculadora extends JFrame {
 	 */
 	public Calculadora() {
 		super();
-		setSize(350, 300);
+		setSize(250, 300);
 		setTitle("Calculadora Simple");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -94,11 +90,6 @@ public class Calculadora extends JFrame {
 		nuevoBotonOperacion("-");
 		nuevoBotonOperacion("*");
 		nuevoBotonOperacion("/");
-                nuevoBotonOperacion("^");
-                nuevoBotonOperacion("10^");
-                nuevoBotonOperacion("RES");
-                nuevoBotonOperacion("MCD");
-                
 		nuevoBotonOperacion("=");
 		nuevoBotonOperacion("CE");
 
@@ -163,7 +154,6 @@ public class Calculadora extends JFrame {
 			pantalla.setText(pantalla.getText() + digito);
 		}
 		nuevaOperacion = false;
-                
 	}
 
 	/**
@@ -202,28 +192,8 @@ public class Calculadora extends JFrame {
 			resultado /= new Double(pantalla.getText());
 		} else if (operacion.equals("*")) {
 			resultado *= new Double(pantalla.getText());
-		} else if (operacion.equals("^")) {
-                        BigDecimal res = new BigDecimal(resultado);
-                        BigDecimal op;
-                        op = res.pow(Integer.parseInt(pantalla.getText()));
-                        resultado = op.doubleValue();
-                } else if(operacion.equals("10^")){
-                        BigDecimal res = new BigDecimal(resultado);
-                        BigDecimal op;
-                        op = res.scaleByPowerOfTen(Integer.parseInt(pantalla.getText()));
-                        resultado = op.doubleValue();                } else if(operacion.equals("RES")){
-                        BigDecimal res = new BigDecimal(resultado);
-                        BigDecimal conversion = new BigDecimal(pantalla.getText());
-                        BigDecimal op;
-                        op = res.remainder(conversion);
-                        resultado = op.doubleValue();
-                } else if(operacion.equals("MCD")){
-                        BigInteger res = new BigInteger(String.valueOf(resultado));
-                        BigInteger op;
-                        BigInteger conversion = new BigInteger(pantalla.getText());
-                        op = res.gcd(conversion);
-                        resultado = op.doubleValue();
-                }
+		}
+
 		pantalla.setText("" + resultado);
 		operacion = "";
 	}
