@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.swing.JButton;
 import javax.swing.JButton;
@@ -23,7 +25,7 @@ import javax.swing.border.EmptyBorder;
  * 
  * @author:  emmanuel 
  * @version:  1.0 
- * @date: 06-09-2015 
+ * Date: 2015/09/06 
  */
 public class Calculadora extends JFrame {
 
@@ -47,13 +49,19 @@ public class Calculadora extends JFrame {
 
 	/** Indica si estamos iniciando o no una operación */
 	boolean nuevaOperacion = true;
-
+        
+        /** Operar con BigDecimal */
+        BigDecimal big1, conversion;
+        
+        /** Operar con BigInteger */
+        BigInteger big2, big3, conversion2;
+        
 	/**
 	 * Constructor. Crea los botones y componentes de la calculadora
 	 */
 	public Calculadora() {
 		super();
-		setSize(250, 300);
+		setSize(350, 300);
 		setTitle("Calculadora Simple");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -90,6 +98,11 @@ public class Calculadora extends JFrame {
 		nuevoBotonOperacion("-");
 		nuevoBotonOperacion("*");
 		nuevoBotonOperacion("/");
+                nuevoBotonOperacion("^");
+                nuevoBotonOperacion("10^");
+                nuevoBotonOperacion("10^-");
+                nuevoBotonOperacion("MCD");
+                
 		nuevoBotonOperacion("=");
 		nuevoBotonOperacion("CE");
 
@@ -192,8 +205,25 @@ public class Calculadora extends JFrame {
 			resultado /= new Double(pantalla.getText());
 		} else if (operacion.equals("*")) {
 			resultado *= new Double(pantalla.getText());
-		}
-
+		} else if (operacion.equals("^")){
+                        big1 = new BigDecimal(resultado);       /*Se crea un BigDecimal con el valor guardado */
+                        conversion = big1.pow(Integer.parseInt(pantalla.getText())); /* Se guarda el resultado obtenido por el método */
+                        resultado = conversion.doubleValue(); /* Se asigna el valor transformado en double */
+                } else if (operacion.equals("10^")){
+                        big1 = new BigDecimal(resultado);
+                        conversion = big1.scaleByPowerOfTen(Integer.parseInt(pantalla.getText()));
+                        resultado = conversion.doubleValue();
+                } else if (operacion.equals("10^-")){
+                        big1 = new BigDecimal(resultado);
+                        conversion = big1.scaleByPowerOfTen((Integer.parseInt(pantalla.getText())) * -1);
+                        resultado = conversion.doubleValue();
+                } else if (operacion.equals("MCD")){
+                        big2 = new BigInteger(String.valueOf((int) resultado));
+                        big3 = new BigInteger(pantalla.getText());
+                        conversion2 = big2.gcd(big3);
+                        resultado = conversion2.doubleValue();
+                }
+                
 		pantalla.setText("" + resultado);
 		operacion = "";
 	}
